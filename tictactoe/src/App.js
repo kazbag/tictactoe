@@ -1,9 +1,12 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-
+import Board from "./components/Board/Board.component";
 function App() {
-  return <div className="App"></div>;
+  return (
+    <div className="App">
+      <Board />
+    </div>
+  );
 }
 
 export default App;

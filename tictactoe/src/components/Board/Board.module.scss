@@ -1,0 +1,11 @@
+.board {
+  background-color: #ccc9cc;
+  border: 6px solid #2d0036;
+  border-radius: 10px;
+  color: #fff;
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  height: 600px;
+  margin: 0 auto;
+  width: 600px;
+}
