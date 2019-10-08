@@ -2,10 +2,12 @@
   background-color: #ccc9cc;
   border: 6px solid #2d0036;
   border-radius: 10px;
+  box-shadow: 10px 10px 20px -10px rgba(0, 0, 0, 0.75);
   color: #fff;
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   height: 600px;
   margin: 0 auto;
+  position: relative;
   width: 600px;
 }
