@@ -5,31 +5,48 @@ import Button from "../Button/Button.component";
 class Board extends React.Component {
   state = {
     board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-    gameOver: true,
+    startBoard: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    gameOver: false,
     playerClicked: "&times;",
     playerTurn: 0,
-    winningPatterns: [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
-    ]
+    playerWon: undefined
   };
-  newGame = () => this.setState({ gameOver: false });
-  checkGameStatus = e => {
-    //todo
+
+  gameOver = () => {
+    this.setState({ gameOver: true });
+  };
+
+  newGame = () =>
+    this.setState({
+      gameOver: false,
+      board: this.state.startBoard
+    });
+
+  checkGameStatus = () => {
+    let boardField = this.state.board.slice();
+    if (
+      (boardField[0] === boardField[1] && boardField[1] === boardField[2]) ||
+      (boardField[3] === boardField[4] && boardField[3] === boardField[5]) ||
+      (boardField[6] === boardField[7] && boardField[6] === boardField[8]) ||
+      (boardField[0] === boardField[3] && boardField[3] === boardField[6]) ||
+      (boardField[1] === boardField[4] && boardField[1] === boardField[7]) ||
+      (boardField[2] === boardField[5] && boardField[2] === boardField[8]) ||
+      (boardField[0] === boardField[4] && boardField[4] === boardField[8]) ||
+      (boardField[2] === boardField[4] && boardField[2] === boardField[6])
+    ) {
+      this.gameOver();
+    }
   };
   setField = e => {
-    // console.table(event.target);
+    let boardField = this.state.board.slice();
+    boardField[e.target.id] = this.state.playerClicked;
+    this.setState({ board: boardField }, () => {
+      this.checkGameStatus();
+    });
     this.state.playerClicked === "&times;"
       ? this.setState({ playerClicked: "&#x25EF;" })
       : this.setState({ playerClicked: "&times;" });
     e.target.innerHTML = this.state.playerClicked;
-    // console.log(this.state.playerClicked);
   };
   render() {
     return (
