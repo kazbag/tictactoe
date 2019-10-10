@@ -48,6 +48,7 @@ class Board extends React.Component {
       : this.setState({ playerClicked: "&times;" });
     e.target.innerHTML = this.state.playerClicked;
   };
+
   render() {
     return (
       <div className={styles.board}>
