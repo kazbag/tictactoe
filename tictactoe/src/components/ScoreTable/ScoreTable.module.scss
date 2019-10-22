@@ -1,0 +1,12 @@
+.scoreTable {
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  top: 0;
+  width: 560px;
+  z-index: 1;
+  background: #000;
+  color: dodgerblue;
+  &__point {
+  }
+}

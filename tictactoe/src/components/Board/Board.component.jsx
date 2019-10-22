@@ -3,19 +3,32 @@ import styles from "./Board.module.scss";
 import Field from "../Field/Field.component";
 import Button from "../Button/Button.component";
 class Board extends React.Component {
-  state = {
-    board: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-    startBoard: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-    gameOver: false,
-    playerClicked: "&times;",
-    playerTurn: 0,
-    playerWon: undefined
-  };
+  state = { ...this.props };
 
   gameOver = () => {
+    this.addPoints();
     this.setState({ gameOver: true });
   };
-
+  addPoints = () => {
+    switch (this.state.playerClicked) {
+      case "&times;":
+        this.setState(
+          prevState => {
+            return { player1Points: prevState.player1Points + 1 };
+          },
+          () => console.log(this.state.player1Points)
+        );
+        break;
+      default:
+        this.setState(
+          prevState => {
+            return { player2Points: prevState.player2Points + 1 };
+          },
+          () => console.log(this.state.player2Points)
+        );
+        break;
+    }
+  };
   newGame = () =>
     this.setState({
       gameOver: false,
@@ -33,6 +46,7 @@ class Board extends React.Component {
       (boardField[2] === boardField[5] && boardField[2] === boardField[8]) ||
       (boardField[0] === boardField[4] && boardField[4] === boardField[8]) ||
       (boardField[2] === boardField[4] && boardField[2] === boardField[6])
+      // or indexof 0 == -1 todo
     ) {
       this.gameOver();
     }
@@ -40,13 +54,15 @@ class Board extends React.Component {
   setField = e => {
     let boardField = this.state.board.slice();
     boardField[e.target.id] = this.state.playerClicked;
-    this.setState({ board: boardField }, () => {
-      this.checkGameStatus();
-    });
-    this.state.playerClicked === "&times;"
-      ? this.setState({ playerClicked: "&#x25EF;" })
-      : this.setState({ playerClicked: "&times;" });
-    e.target.innerHTML = this.state.playerClicked;
+    if (typeof (boardField[e.target.id] === Number)) {
+      this.setState({ board: boardField }, () => {
+        this.checkGameStatus();
+      });
+      this.state.playerClicked === "&times;"
+        ? this.setState({ playerClicked: "&#x25EF;" })
+        : this.setState({ playerClicked: "&times;" });
+      e.target.innerHTML = this.state.playerClicked;
+    }
   };
 
   render() {
@@ -63,6 +79,9 @@ class Board extends React.Component {
             <Field setField={this.setField} id="6" />
             <Field setField={this.setField} id="7" />
             <Field setField={this.setField} id="8" />
+            <span className={styles.turn}>
+              turn: {this.state.playerClicked === "&times;" ? "X" : "O"}
+            </span>
           </>
         )}
         {this.state.gameOver && <Button newGame={this.newGame} />}
